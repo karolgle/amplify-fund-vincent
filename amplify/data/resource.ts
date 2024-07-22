@@ -6,16 +6,29 @@ adding a new "isDone" field as a boolean. The authorization rule below
 specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
+
+import { schema as generatedSqlSchema } from './schema.sql';
+
+
+// Add a global authorization rule
+const sqlSchema = generatedSqlSchema.authorization(allow => allow.guest())
+
 const schema = a.schema({
   Todo: a.model({
     content: a.string(),
   }).authorization(allow => [allow.owner()]),
 });
 
-export type Schema = ClientSchema<typeof schema>;
+// Use the a.combine() operator to stitch together the models backed by DynamoDB
+// and the models backed by Postgres or MySQL databases.
+const combinedSchema = a.combine([schema, sqlSchema]);
+
+// Don't forget to update your client types to take into account the types from
+// both schemas.
+export type Schema = ClientSchema<typeof combinedSchema>;
 
 export const data = defineData({
-  schema,
+  schema: combinedSchema,
   authorizationModes: {
     defaultAuthorizationMode: 'userPool',
     // API Key is used for a.allow.public() rules
