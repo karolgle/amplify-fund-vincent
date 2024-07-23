@@ -1,4 +1,4 @@
-import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import {a, type ClientSchema, defineData} from "@aws-amplify/backend";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -6,17 +6,16 @@ adding a new "isDone" field as a boolean. The authorization rule below
 specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
-
-import { schema as generatedSqlSchema } from './schema.sql';
+import {schema as generatedSqlSchema} from './schema.sql';
 
 
 // Add a global authorization rule
-const sqlSchema = generatedSqlSchema.authorization(allow => allow.guest())
+const sqlSchema = generatedSqlSchema.authorization(allow => allow.authenticated())
 
 const schema = a.schema({
   Todo: a.model({
     content: a.string(),
-  }).authorization(allow => [allow.owner()]),
+  }).authorization(allow => [allow.authenticated()]),
 });
 
 // Use the a.combine() operator to stitch together the models backed by DynamoDB
