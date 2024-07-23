@@ -10,7 +10,7 @@ import {schema as generatedSqlSchema} from './schema.sql';
 
 
 // Add a global authorization rule
-const sqlSchema = generatedSqlSchema.authorization(allow => allow.authenticated())
+const sqlSchema = generatedSqlSchema.authorization(allow => [allow.groups(["ADMINS"]).to(["read"]), allow.owner()])
 
 const schema = a.schema({
   Todo: a.model({
