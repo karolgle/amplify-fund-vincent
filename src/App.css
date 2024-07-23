@@ -84,3 +84,13 @@ table tr:hover {
 .read-the-docs {
   color: #888;
 }
+
+.user-info {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

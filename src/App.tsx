@@ -10,31 +10,17 @@ import logo from './assets/logo.png';
 const client = generateClient<Schema>();
 
 function App() {
-    const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
     const [funds, setFunds] = useState<Array<Schema["fund"]["type"]>>([]);
 
     useEffect(() => {
-        const todoSubscription = client.models.Todo.observeQuery().subscribe({
-            next: (data) => setTodos([...data.items]),
-        });
-
         const fundSubscription = client.models.fund.observeQuery().subscribe({
             next: (data) => setFunds([...data.items]),
         });
 
         return () => {
-            todoSubscription.unsubscribe();
             fundSubscription.unsubscribe();
         };
     }, []);
-
-    function createTodo() {
-        client.models.Todo.create({content: window.prompt("Todo content")});
-    }
-
-    function deleteTodo(id: string) {
-        client.models.Todo.delete({id});
-    }
 
     return (
         <Authenticator>
@@ -45,10 +31,13 @@ function App() {
                             <img src={logo} className="logo" alt="logo"/>
                             <h1>Vincent's Fund</h1>
                         </div>
+                        <div className="user-info">
+                            <h2>{user?.signInDetails?.loginId}</h2>
+                            <button onClick={signOut}>Sign out</button>
+                        </div>
                     </header>
                     <main>
                         <div className="card">
-                            <h2>Funds</h2>
                             <div className="table-container">
                                 <table>
                                     <thead>
@@ -76,8 +65,6 @@ function App() {
                                 </table>
                             </div>
                         </div>
-                        <button onClick={signOut}>Sign out</button>
-                        <h2>{user?.signInDetails?.loginId}'s todos</h2>
                     </main>
                 </div>
             )}
