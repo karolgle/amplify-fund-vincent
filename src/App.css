@@ -1,10 +1,30 @@
+/* Add these new styles */
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.header-content .logo {
+  height: 8em; /* Make the logo bigger */
+  margin-right: 1.5em; /* Add space between the logo and the text */
+}
+
+.App-header h1 {
+  font-size: 2em; /* Adjust if necessary */
+}
+
+/* Existing styles */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  background-color: #f0f0f0; /* Light gray background for the root */
-  color: #333; /* Darker gray for text for better readability */
+  background-color: #f8f8f8; /* Light steel gray background */
+  color: #333; /* Dark gray text for readability */
+}
+
+.header {
+  margin-bottom: 2rem;
 }
 
 .logo {
@@ -15,38 +35,18 @@
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em #aaa); /* Gray drop shadow */
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #aaa); /* Gray drop shadow for React logo */
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+  filter: drop-shadow(0 0 2em #555); /* Subtle dark shadow */
 }
 
 .card {
   padding: 2em;
-  background-color: #fff; /* White background for cards */
+  background-color: white; /* White background for cards */
   border: 1px solid #ddd; /* Light gray border */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-  border-radius: 8px; /* Rounded corners for a modern look */
-}
-
-.read-the-docs {
-  color: #888;
+  border-radius: 12px; /* Rounded corners */
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .table-container {
@@ -69,14 +69,18 @@ table td {
 }
 
 table th {
-  background-color: #f7f7f7;
-  color: #555;
+  background-color: #e0e0e0; /* Light gray background for header */
+  color: #333; /* Dark gray text */
 }
 
 table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f9f9f9; /* Light gray for even rows */
 }
 
 table tr:hover {
-  background-color: #e9e9e9;
+  background-color: #e0e0e0; /* Light hover effect */
+}
+
+.read-the-docs {
+  color: #888;
 }
