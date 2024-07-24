@@ -1,4 +1,4 @@
-import {a, type ClientSchema, defineData} from "@aws-amplify/backend";
+import {type ClientSchema, defineData} from "@aws-amplify/backend";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -10,31 +10,25 @@ import {schema as generatedSqlSchema} from './schema.sql';
 
 
 // Add a global authorization rule
-const sqlSchema = generatedSqlSchema.authorization(allow => [allow.groups(["ADMINS"]).to(["read"]), allow.owner()])
-
-const schema = a.schema({
-  Todo: a.model({
-    content: a.string(),
-  }).authorization(allow => [allow.authenticated()]),
-});
-
-// Use the a.combine() operator to stitch together the models backed by DynamoDB
-// and the models backed by Postgres or MySQL databases.
-const combinedSchema = a.combine([schema, sqlSchema]);
+const sqlSchema = generatedSqlSchema
+    .authorization(allow => [allow.groups(['ADMINS']).to(['read'])
+        , allow.owner().to(['read'])
+        , allow.ownerDefinedIn('email').identityClaim('email').to(["read"])
+    ])
 
 // Don't forget to update your client types to take into account the types from
 // both schemas.
-export type Schema = ClientSchema<typeof combinedSchema>;
+export type Schema = ClientSchema<typeof sqlSchema>;
 
 export const data = defineData({
-  schema: combinedSchema,
-  authorizationModes: {
-    defaultAuthorizationMode: 'userPool',
-    // API Key is used for a.allow.public() rules
-    apiKeyAuthorizationMode: {
-      expiresInDays: 30,
+    schema: sqlSchema,
+    authorizationModes: {
+        defaultAuthorizationMode: 'userPool',
+        // API Key is used for a.allow.public() rules
+        apiKeyAuthorizationMode: {
+            expiresInDays: 30,
+        },
     },
-  },
 });
 
 /*== STEP 2 ===============================================================

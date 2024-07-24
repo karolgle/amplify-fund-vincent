@@ -48,6 +48,9 @@ function App() {
                                         <th>Amount</th>
                                         <th>Price</th>
                                         <th>Date/Time</th>
+                                        <th>Owner</th>
+                                        <th>Created At</th>
+                                        <th>Updated At</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -59,6 +62,9 @@ function App() {
                                             <td>{fund.amount}</td>
                                             <td>{fund.price}</td>
                                             <td>{fund.datetime}</td>
+                                            <td>{fund.owner}</td>
+                                            <td>{fund.createdAt}</td>
+                                            <td>{fund.updatedAt}</td>
                                         </tr>
                                     ))}
                                     </tbody>
